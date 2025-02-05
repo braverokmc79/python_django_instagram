@@ -1,20 +1,36 @@
-# Config for Dependabot updates. See Documentation here:
+# Dependabot 업데이트 구성 파일
+# 자세한 내용은 아래 문서를 참고하세요:
 # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
-  # Update GitHub actions in workflows
+  # GitHub Actions 워크플로우 내 액션 업데이트
   - package-ecosystem: 'github-actions'
     directory: '/'
-    # Every weekday
+    # 매일 업데이트
+    #schedule:
+    #  interval: 'daily'
+    
+    # GitHub Actions 워크플로우 내 액션 업데이트 (1년에 1번)
     schedule:
-      interval: 'daily'
+      interval: 'monthly'  # 매월 실행
+      day: 'january'  # 1월에 실행
+      time: '00:00'
+      timezone: 'UTC'  # 필요에 따라 변경 가능  
 
-  # Enable version updates for Python/Pip - Production
+  # Python/Pip 패키지(프로덕션) 버전 업데이트 활성화
   - package-ecosystem: 'pip'
-    # Look for a `requirements.txt` in the `root` directory
-    # also 'setup.cfg', 'runtime.txt' and 'requirements/*.txt'
+    # 루트 디렉터리에서 `requirements.txt` 파일을 찾음
+    # 또한 'setup.cfg', 'runtime.txt', 'requirements/*.txt' 파일도 포함
     directory: '/'
-    # Every weekday
+    
+    # 매일 업데이트
+    #schedule:
+    #  interval: 'daily'
+
+    # Python/Pip 패키지(프로덕션) 업데이트 (1년에 1번)
     schedule:
-      interval: 'daily'
+      interval: 'monthly'  # 매월 실행
+      day: 'january'  # 1월에 실행
+      time: '00:00'
+      timezone: 'UTC'
