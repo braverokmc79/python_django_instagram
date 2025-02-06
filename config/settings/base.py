@@ -83,6 +83,7 @@ DATABASES = {
 
 
 
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -100,7 +101,7 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
+    #"django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
@@ -119,6 +120,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "django_instagram.users",
     # Your stuff: custom apps go here
+    "django_instagram.posts",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -317,3 +319,4 @@ SOCIALACCOUNT_FORMS = {"signup": "django_instagram.users.forms.UserSocialSignupF
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
