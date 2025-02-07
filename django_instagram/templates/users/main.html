@@ -1,0 +1,11 @@
+
+<h1>메인 페이지</h1>
+
+
+<span style="color: red;">{{error_message}}</span>
+<form action="{% url 'users:main' %}" method="post" class="">
+    {% csrf_token %}
+    <input type="text" name="username"   placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="로그인">
+</form>

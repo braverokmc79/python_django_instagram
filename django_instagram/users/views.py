@@ -1,46 +1,35 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import QuerySet
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView
-from django.views.generic import RedirectView
-from django.views.generic import UpdateView
-
-from django_instagram.users.models import User
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    slug_field = "username"
-    slug_url_kwarg = "username"
+def main(request):
+    if request.method == "GET":
+        return render(request, 'users/main.html')
+
+    elif request.method == "POST":
+        # POST 데이터 가져오기
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(f"POST 방식 파라미터 가져오기: {username}, {password}")
+
+        # 사용자 인증
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # 로그인 처리
+            login(request, user)
+            return HttpResponseRedirect(reverse('posts:index'))
+        else:
+            # 실패 시 오류 메시지 전달
+            return render(request, 'users/main.html', {'error_message': '아이디 또는 비밀번호가 맞지 않습니다.'})
+        
+
+       
+    
 
 
-user_detail_view = UserDetailView.as_view()
+    
 
-
-class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    model = User
-    fields = ["name"]
-    success_message = _("Information successfully updated")
-
-    def get_success_url(self) -> str:
-        assert self.request.user.is_authenticated  # type guard
-        return self.request.user.get_absolute_url()
-
-    def get_object(self, queryset: QuerySet | None=None) -> User:
-        assert self.request.user.is_authenticated  # type guard
-        return self.request.user
-
-
-user_update_view = UserUpdateView.as_view()
-
-
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-    permanent = False
-
-    def get_redirect_url(self) -> str:
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
-
-
-user_redirect_view = UserRedirectView.as_view()
