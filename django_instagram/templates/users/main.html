@@ -1,11 +1,58 @@
 
-<h1>메인 페이지</h1>
+<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
 
-<span style="color: red;">{{error_message}}</span>
-<form action="{% url 'users:main' %}" method="post" class="">
-    {% csrf_token %}
-    <input type="text" name="username"   placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <input type="submit" value="로그인">
-</form>
+
+<div class="w-full flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <!-- 로그인 컨테이너 -->
+    <div class="w-full  bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">로그인</h1>
+      <form action="{% url 'users:main' %}" method="post" class="space-y-4">
+        {% csrf_token %}
+        <!-- 사용자 이름 필드 -->
+        <div>
+          <input 
+            type="text" 
+            name="username" 
+            placeholder="사용자이름(아이디)" 
+            required 
+            class="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <!-- 비밀번호 필드 -->
+        <div>
+          <input 
+            type="password" 
+            name="password" 
+            placeholder="비밀번호" 
+            required 
+            class="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 
+            focus:border-blue-500"
+          />
+        </div>
+
+        {% if  error_message  %}
+        <!-- 에러 메시지 -->
+        <div  class="w-full text-left items-center">        
+          <div class="!text-red-500 col-span-7 text-sm mt-1 ">{{ error_message }}</div>
+       </div>
+       {% endif %}
+
+        <!-- 로그인 버튼 -->
+        <button 
+          type="submit" 
+          class="w-full py-3 bg-blue-500 text-white text-lg rounded-lg hover:bg-blue-600 transition-colors">
+          로그인
+        </button>
+      </form>
+    </div>
+  
+    <!-- 회원가입 링크 -->
+    <div class="mt-6">
+      <a href="{% url 'users:signup' %}" class="text-sm text-blue-500 hover:underline">
+        회원가입
+      </a>
+    </div>
+  </div>
+
+
