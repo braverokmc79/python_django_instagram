@@ -60,13 +60,13 @@ class SignUpForm(UserCreationForm):
         
         # 위젯 설정
         widgets = {
-            'email': django_forms.EmailInput(attrs={'required': 'required', 'class': classStyle}),
-            'name': django_forms.TextInput(attrs={'required': 'required', 'class': classStyle}),
-            'username': django_forms.TextInput(attrs={'required': 'required', 'class': classStyle}),
-            'profile_photo': django_forms.ClearableFileInput(attrs={'class': classStyle + fileInputStyle }),
-            'website': django_forms.URLInput(attrs={'class': classStyle}),
-            'bio': django_forms.Textarea(attrs={'class': classStyle}),
-            'gender': django_forms.Select(attrs={'class': classStyle, 'required': 'required'}),           
+            'email': django_forms.EmailInput(attrs={'placeholder':'이메일',  'required': 'required', 'class': classStyle}),
+            'name': django_forms.TextInput(attrs={'placeholder':'성명', 'required': 'required', 'class': classStyle}),
+            'username': django_forms.TextInput(attrs={'placeholder':'사용자이름(아이디)', 'required': 'required', 'class': classStyle}),
+            'profile_photo': django_forms.ClearableFileInput(attrs={'placeholder':'프로필 사진', 'class': classStyle + fileInputStyle }),
+            'website': django_forms.URLInput(attrs={'placeholder':'웹사이트', 'class': classStyle}),
+            'bio': django_forms.Textarea(attrs={'placeholder':'소개', 'class': classStyle +" h-32"}),
+            'gender': django_forms.Select(attrs={'placeholder':'성별',  'class': classStyle, 'required': 'required'}),           
         }
         
         labels = {
@@ -84,8 +84,8 @@ class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # password1, password2 위젯 스타일 적용
-        self.fields['password1'].widget.attrs.update({'class': self.Meta.classStyle, 'required': 'required'})
-        self.fields['password2'].widget.attrs.update({'class': self.Meta.classStyle, 'required': 'required'})
+        self.fields['password1'].widget.attrs.update({'placeholder':'비밀번호','class': self.Meta.classStyle, 'required': 'required'})
+        self.fields['password2'].widget.attrs.update({'placeholder':'비밀번호 확인', 'class': self.Meta.classStyle, 'required': 'required'})
 
     # 추가적으로 커스터마이징할 수 있는 방법: 
     # 비밀번호 확인 로직을 커스터마이징하고 싶으면, `clean` 메서드를 오버라이드 할 수 있습니다.

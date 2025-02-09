@@ -1,12 +1,22 @@
+{% extends "users/base.html" %}
 
-<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+{% block title %} 
+장고 인스타그램 | 로그인
+{% endblock title%} 
 
 
+{% block content %}
 
 <div class="w-full flex flex-col items-center justify-center min-h-screen bg-gray-100">
     <!-- 로그인 컨테이너 -->
-    <div class="w-full  bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
-      <h1 class="text-2xl font-bold text-gray-800 mb-6">로그인</h1>
+  <div class="w-full  bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+      <div class=" mb-5 x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh xseo6mj xod5an3 x1n2onr6 x1plvlek xryxfnj x1c4vz4f x2lah0s xdt5ytf xqjyukv x1qjc9v5 x1oa3qoh x1nhvcw1">
+       <i data-visualcompletion="css-img" aria-label="Instagram" class="" role="img" style="background-image: url(&quot;https://static.cdninstagram.com/rsrc.php/v4/yB/r/E7m8ZCMOFDS.png&quot;); background-position: 0px -52px; background-size: auto; width: 175px; height: 51px; background-repeat: no-repeat; display: inline-block;"></i>
+     
+     </div>
+
+    
       <form action="{% url 'users:main' %}" method="post" class="space-y-4">
         {% csrf_token %}
         <!-- 사용자 이름 필드 -->
@@ -45,7 +55,7 @@
           로그인
         </button>
       </form>
-    </div>
+    
   
     <!-- 회원가입 링크 -->
     <div class="mt-6">
@@ -53,6 +63,11 @@
         회원가입
       </a>
     </div>
+
   </div>
+
+</div>
+
+{% endblock content %}
 
 

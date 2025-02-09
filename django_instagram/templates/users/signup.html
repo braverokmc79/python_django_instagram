@@ -1,34 +1,48 @@
+{% extends "users/base.html" %}
 
-<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
+{% block title %} 
+장고 인스타그램 | 회원가입
+{% endblock title%} 
+
+
+
+{% block content %}
 
 <div class="w-full flex flex-col items-center justify-center min-h-screen bg-gray-100">
   <div class="w-full bg-white p-8 rounded-lg shadow-md max-w-lg   md:max-w-2xl   text-center">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">회원가입</h1>
+    
+<div class="x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh xseo6mj xod5an3 x1n2onr6 x1plvlek xryxfnj x1c4vz4f x2lah0s xdt5ytf xqjyukv x1qjc9v5 x1oa3qoh x1nhvcw1">
+    <i data-visualcompletion="css-img" aria-label="Instagram" class="" role="img" style="background-image: url(&quot;https://static.cdninstagram.com/rsrc.php/v4/yB/r/E7m8ZCMOFDS.png&quot;); background-position: 0px -52px; background-size: auto; width: 175px; height: 51px; background-repeat: no-repeat; display: inline-block;"></i>
+  </div>
+<h1 class="text-1xl font-bold text-gray-800 mb-6">친구들의 사진과 동영상을 보려면 가입하세요.</h1>
 
     <form action="{% url 'users:signup' %}" method="post" class="space-y-4" enctype="multipart/form-data">
       {% csrf_token %}
       {% for field in form %}
         <div class="flex flex-col text-left">
 
-            <div class="grid grid-cols-10 gap-2 items-center">
+            <div class="grid grid-cols-12 gap-2 items-center">
+              <!--
                 <label class="col-span-3 text-gray-700 font-medium">
                     {{ field.label_tag }}
-                  </label>
-                  <div class="col-span-7">
+                 </label>
+              -->
+                 <span  class="col-span-2"></span>
+                  <div class="col-span-8">
                     {{ field }}
                   </div>
             </div> 
       
-            <div  class="grid grid-cols-10 gap-2 items-center">
-                <div class="col-span-3"></div>
+            <div  class="grid grid-cols-12 gap-2 items-center">
+                <div class="col-span-2"></div>
                 <div class="!text-red-500 col-span-7 text-sm mt-1 ">{{ field.errors }}</div>
             </div>
           
         </div>
       {% endfor %}
       <button type="submit" 
-        class="w-full py-3 bg-blue-500 text-white text-lg rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
+        class=" w-8/12 py-3 bg-blue-500 text-white text-lg rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
         회원가입
       </button>
     </form>
@@ -41,3 +55,5 @@
 </div>
 
 
+
+{% endblock content %}

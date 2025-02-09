@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock%} </title>
+    <meta name="description" content="장고-인스타그램">
+    <meta name="keywords" content="HTML,JavaScript,python, tailwindcss">
+    <meta name="author" content="macaronics.net">  
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link href="{% static "css/users/main.css" %}" rel="stylesheet">
+</head>
+<body>
+  <div>
+        {% block content %}
+             content
+        {% endblock %} 
+  </div>
+  
+
+{% include "users/footer.html" %}
+
+</body>
+</html>

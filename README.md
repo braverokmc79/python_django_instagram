@@ -1,11 +1,27 @@
 # django_instagram
 
+To-do:
+--------
+- [] 포스트 생성
+- [] 포스트 수정
+- [] 포스트 삭제
+- [] 포스트 리스트(피드)
+- [] 댓글
+- [] 좋아요
+- [] 검색
+- [] 프로필 피드
+
+--------
+
+
+
 파이썬 장고(Python Django) - 쿠키커터(Cookiecutter)로 만드는 Instagram + TailwindCSS 프로젝트
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-라이선스: MIT
+라이선스: macaroncs.net
+
 
 ## 설정
 
