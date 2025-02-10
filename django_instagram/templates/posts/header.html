@@ -1,0 +1,51 @@
+{% load static %}
+{% block staticBlock %}
+  {% comment %} <link rel="stylesheet" href="{% static 'css/posts/header.css' %}" /> {% endcomment %}
+{% endblock staticBlock %}
+
+<input type="hidden" name="user" id="user" value="{{user.id }}" />
+<input type="hidden" name="userId" id="userId" value="{{user.id }}" />
+
+<header class="bg-white py-2 px-4 shadow-md sticky top-0 z-50 flex items-center justify-center">
+    <div class="flex justify-between items-center w-full max-w-5xl">
+        <!-- 메인 로고 -->
+        <div class="cursor-pointer">
+            <a href="{% url 'posts:index' %}">
+                <img src="{% static 'images/instagram.png' %}" alt="instagram" class="h-10">
+            </a>
+        </div>
+
+        <!-- 검색창 -->
+        <div class="flex-1 mx-5 relative hidden md:block">
+            <input 
+                type="search" 
+                placeholder="검색..." 
+                id="q" name="q"
+                class="w-full px-4 py-2 
+                text-sm border border-gray-300 rounded-full 
+                shadow-sm focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-500">
+        </div>
+
+        <!-- 오른쪽 아이콘 -->
+        <div class="flex gap-5 items-center">
+            <!-- 게시물 생성 -->
+            <div class="cursor-pointer transform transition-transform duration-300 hover:scale-110">
+                <a href="#">
+                    <i class="fa fa-plus-circle text-gray-600 hover:text-blue-500 text-2xl"></i>
+                </a>
+            </div>
+            <!-- 사용자 아이콘 -->
+            <div class="cursor-pointer transform transition-transform duration-300 hover:scale-110">
+                <a href="#">
+                    <i class="fa fa-user text-gray-600 hover:text-blue-500 text-2xl"></i>
+                </a>
+            </div>
+            <!-- 로그아웃 -->
+            <div class="cursor-pointer transform transition-transform duration-300 hover:scale-110">
+                <a href="#">
+                    <i class="fa fa-sign-out text-gray-600 hover:text-blue-500 text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>

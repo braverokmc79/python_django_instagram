@@ -1,0 +1,91 @@
+/* 전체 헤더 스타일 */
+header {
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 헤더 내부 박스 */
+.header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+}
+
+/* 메인 로고 */
+.main-img img {
+    height: 40px;
+    width: auto;
+    cursor: pointer;
+}
+
+/* 검색창 스타일 */
+.search {
+    flex: 1;
+    margin: 0 20px;
+    position: relative;
+}
+
+.search input {
+    width: 90%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+/* 오른쪽 아이콘 스타일 */
+.header-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-right div {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.header-right div:hover {
+    transform: scale(1.1);
+}
+
+/* 아이콘 크기 및 색상 */
+.header-right i {
+    color: #555;
+    transition: color 0.3s;
+}
+
+.header-right i:hover {
+    color: #007bff;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .search {
+        display: none; /* 작은 화면에서는 검색창 숨김 */
+    }
+
+    .header-box {
+        padding: 0 10px;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+}
