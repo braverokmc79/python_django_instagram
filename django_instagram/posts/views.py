@@ -1,6 +1,7 @@
 from django.shortcuts import render , get_object_or_404
 from django_instagram.users.models import User as user_model  # 사용자 모델 import
-from . import models  , serializers
+from . import models 
+
 
 # Create your views here.
 def index(request):
