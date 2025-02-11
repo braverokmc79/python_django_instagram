@@ -29,4 +29,4 @@ def post_create(request):
            return render(request, 'posts/base.html')
         
         else:
-           return render(request, 'posts/post_create.html')
+           return render(request, 'users/main.html')
