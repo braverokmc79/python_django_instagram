@@ -22,6 +22,7 @@ class UserAdmin(auth_admin.UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("name", "email")}),
+        (_("팔로워 && 팔로잉"), {"fields": ("followers", "following")}),
         (
             _("Permissions"),
             {
