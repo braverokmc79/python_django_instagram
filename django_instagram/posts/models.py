@@ -16,7 +16,7 @@ class TimeStampedModel(models.Model):
 class Post(TimeStampedModel):
     author = models.ForeignKey(
         user_models.User, 
-        null=True, 
+        null=True, #여기서 null 은 데이터 베이스에 관련된 null 허용 여부
         on_delete=models.CASCADE, 
         #🔖주체가 참조하는 필드이다. 여기서는  user 모델이므로  Post 작성글을 어떻게 가져오냐 하는 것이다.
         #✔️related_name='post_author',  #→ user.post_author.all() 
@@ -24,7 +24,7 @@ class Post(TimeStampedModel):
         verbose_name=_("작성자")
     )
     image = models.ImageField(_("이미지"), upload_to="posts/", blank=False)
-    caption = models.TextField(_("내용"), blank=False)
+    caption = models.TextField(_("내용"), blank=False)#여기서 blank 유효성 검사를 위한 허용여부
     image_likes = models.ManyToManyField(
         user_models.User, 
         blank=True,  
