@@ -23,7 +23,7 @@ def main(request):
             login(request, user)
             return HttpResponseRedirect(reverse('posts:index'))
         else:
-            # 실패 시 오류 메시지 전달
+            # 실패 시 오류 메시지 전달            
             return render(request, 'users/main.html', {'error_message': '아이디 또는 비밀번호가 맞지 않습니다.'})
      
 

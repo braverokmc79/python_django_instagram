@@ -1,8 +1,11 @@
-from django.shortcuts import render , get_object_or_404
+from django.shortcuts import render , get_object_or_404 ,redirect
 from django_instagram.users.models import User as user_model  # 사용자 모델 import
 from . import models 
 from .forms import CreatePostForm
 from django.db.models import Q
+from .api import serializers
+from django.http import JsonResponse , HttpResponse
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -39,8 +42,12 @@ def index(request):
                     Q(author__in=following) | Q(author=user)
             )
 
-            return render(request, 'posts/main.html')
-        
+            serializer = serializers.PostSerializer(posts, many=True, context={'request': request})
+            print(serializer.data)
+            #return JsonResponse(serializer.data, safe=False)
+            return render(request, 'posts/main.html', {"posts": serializer.data})
+
+    return  redirect(reverse('users:main') ) #인증 되지 않는 사용자 로그인화면으로
 
 
 

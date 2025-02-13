@@ -18,9 +18,7 @@ class Post(TimeStampedModel):
         user_models.User, 
         null=True, #여기서 null 은 데이터 베이스에 관련된 null 허용 여부
         on_delete=models.CASCADE, 
-        #🔖주체가 참조하는 필드이다. 여기서는  user 모델이므로  Post 작성글을 어떻게 가져오냐 하는 것이다.
-        #✔️related_name='post_author',  #→ user.post_author.all() 
-        related_name='posts',  #user.liked_posts.all() → 이렇게 "좋아요한 게시물" 가져온다.
+        related_name='post_author', 
         verbose_name=_("작성자")
     )
     image = models.ImageField(_("이미지"), upload_to="posts/", blank=False)
@@ -28,9 +26,7 @@ class Post(TimeStampedModel):
     image_likes = models.ManyToManyField(
         user_models.User, 
         blank=True,  
-        #🔖User 주체      
-        #✔️related_name='post_image_likes', #→ user.post_image_likes.all() 
-        related_name='liked_posts',    #user.liked_posts.all()      
+        related_name='post_image_likes',         
         verbose_name=_("좋아요")
     )
 
@@ -55,18 +51,14 @@ class Comment(TimeStampedModel):
         user_models.User, 
         null=True, 
         on_delete=models.CASCADE, 
-        #🔖User 주체  
-        #✔️related_name='comment_author', #user.comment_author.all() → "작성자(comment_author)인지 댓글 목록인지 헷갈릴 수 있음"
-        related_name='comments',
+        related_name='comment_author',   
         verbose_name=_("작성자")
     )
     post = models.ForeignKey(
         Post, 
         null=True, 
         on_delete=models.CASCADE, 
-        #🔖Post 주체  
-        #✔️related_name='comment_post', # post.comment_post.all() → "게시물(comment_post)인지 댓글 목록인지 헷갈릴 수 있음"    
-        related_name='comments', #  post.comments.all() → "이 게시물의 모든 댓글" (직관적)
+        related_name='comment_post',
         verbose_name=_("게시물")
     )
     contents = models.TextField(_("내용"), blank=True)

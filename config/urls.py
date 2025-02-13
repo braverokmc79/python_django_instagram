@@ -25,6 +25,13 @@ urlpatterns = [
 
     path("posts/",include("django_instagram.posts.urls", namespace="posts")),
     
+
+    # API 엔드포인트
+    path("api/", include(("django_instagram.posts.api.urls", "posts_api"), namespace="posts_api")),  
+    #path("api/", include(("django_instagram.users.urls", "users_api"), namespace="users_api")),   
+    
+
+
     # Your stuff: custom urls includes go here
     # ...
     # Media files

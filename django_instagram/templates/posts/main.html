@@ -8,4 +8,30 @@ post 메인
 
 
 {% block content %}
+
+
+<div class="w-full bg-gray-100">
+    <div class="w-full max-w-7xl mx-auto flex flex-col items-center  min-h-screen bg-gray-200 pt-10 text-left">
+        {% for post in posts %}   
+         <div class="text-left">
+            <p>{{ post.author.id }}</p>
+            <p>{{ post.author.username }}</p>
+            <p>{{ post.author.profile_photo }}</p>
+            <p>{{ post.id }}</p>
+            <p>{{ post.image }}</p>
+            <p>{{ post.caption }}</p>
+
+            <br/>
+            <strong>댓글 목록</strong>
+            {% for comment in post.comment_post %}
+                <p>{{ comment.id }}</p>
+                <p>{{ comment.contents }}</p>
+                <p>{{ comment.author.id }}</p>
+            {% endfor %}
+            <hr/>
+        </div>      
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock content %}
