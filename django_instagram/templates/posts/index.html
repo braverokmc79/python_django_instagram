@@ -1,11 +1,29 @@
 {% extends "posts/base.html" %}
 {% load static %}
 
-
 {% block title %}
-post 메인
+ 포스트 생성
 {% endblock title %}
 
 
+<!-- 동적 스타일 -->
+{% block staticBlock %}
+<script defer src="{% static 'js/posts/loadMorePosts.js' %}"></script>
+{% endblock staticBlock %} 
+
+
 {% block content %}
+
+<div class="bg-gray-50 py-10">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 
+                gap-x-8 gap-y-16  pt-10 sm:mt-16 sm:pt-16 lg:mx-0 
+                lg:max-w-none lg:grid-cols-1" id="postList">
+    
+
+    </div>
+  </div>
+</div>
 {% endblock content %}

@@ -8,7 +8,7 @@ from django.http import JsonResponse , HttpResponse
 from django.urls import reverse
 
 # Create your views here.
-def index(request):
+def index2(request):
     if request.method == 'GET': 
         if request.user.is_authenticated:
             """
@@ -45,9 +45,18 @@ def index(request):
             serializer = serializers.PostSerializer(posts, many=True, context={'request': request})
             print(serializer.data)
             #return JsonResponse(serializer.data, safe=False)
-            return render(request, 'posts/main.html', {"posts": serializer.data})
+            return render(request, 'posts/index.html', {"posts": serializer.data})
 
     return  redirect(reverse('users:main') ) #인증 되지 않는 사용자 로그인화면으로
+
+
+
+def index(request):
+    if request.method == 'GET': 
+        if request.user.is_authenticated:
+            user = get_object_or_404(user_model, pk=request.user.id)                        
+            return render(request, 'posts/index.html', {"user": user})
+    return  redirect(reverse('users:main') ) 
 
 
 
@@ -80,7 +89,7 @@ def post_create(request):
               new_post = form.save(commit=False)
               new_post.author = user
               new_post.save()
-              return render(request, 'posts/main.html')
+              return redirect(reverse('posts:index'))
            else:
               return render(request, 'posts/post_create.html', {'form': form})
            

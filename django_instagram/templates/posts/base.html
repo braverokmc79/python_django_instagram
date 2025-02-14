@@ -10,27 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet"> 
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
-    <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                clifford: '#da373d',
-              }
-            }
-          }
-        }
-      </script>
 
     <link rel="stylesheet" href="{% static 'css/posts/main.css' %}" />
      <!-- 동적 스타일 -->
      {% block staticBlock %}{% endblock staticBlock %} 
-    
+
     <title>{%block title%}{% endblock title %} |  Djangogram</title>
   </head>
   <body class="bg-gray-50 m-0 p-0">
@@ -42,6 +28,6 @@
     <div class="content">
       {% block content %} {% endblock content %}
     </div>
-
+    
   </body>
 </html> 
