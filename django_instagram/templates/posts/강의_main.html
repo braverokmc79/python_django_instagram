@@ -1,0 +1,109 @@
+{% extends "posts/base.html" %}
+{% load static %}
+
+{% block title %}
+ 포스트 생성
+{% endblock title %}
+
+
+<!-- 동적 스타일 -->
+{% block staticBlock %}
+<script defer src="{% static 'js/posts/loadMorePosts.js' %}"></script>
+{% endblock staticBlock %} 
+
+
+{% block content %}
+
+<div class="bg-gray-50 py-10">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {% comment %} <div class="mx-auto max-w-full lg:mx-0">
+      <h2 class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl border-b-2 pb-4">Instagram Posts</h2>
+    </div> {% endcomment %}
+
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16  pt-10 sm:mt-16 sm:pt-16 lg:mx-0 
+    lg:max-w-none lg:grid-cols-1" id="postList">
+    
+    
+{% comment %} <div style="display:none">
+{% for post in posts %}
+
+      <article class="w-3/4 border rounded-lg border-gray-300 mx-auto shadow-lg bg-white" >
+        
+        <!-- 상단 프로필 영역 -->
+        <div class="w-full flex justify-between items-center border-b border-gray-200 p-4">
+          
+          <!-- 왼쪽 콘텐츠 -->
+          <div class="flex items-center space-x-3">
+            <span>
+              {% if post.author.profile_photo != None %}
+                  <img src="{{post.author.profile_photo }}" class="w-12 h-12 rounded-full border border-gray-300">
+              {% else %}
+                  <img src="{% static 'images/posts/no_avatar.png' %}" class="w-12 h-12 rounded-full border border-gray-300">
+              {% endif %}
+            </span>
+            <span class="font-semibold text-gray-800 text-lg">{{ post.author.username }}</span>
+          </div>
+          
+          <!-- 오른쪽 콘텐츠 -->
+          <div class="flex items-center space-x-5">
+            <i class="fa fa-pencil fa-lg text-gray-500 cursor-pointer hover:text-gray-800"></i>
+            <i class="fa fa-trash-o fa-lg text-red-500 cursor-pointer hover:text-red-700"></i>
+          </div>
+        </div>
+
+        <!-- 포스트 이미지 -->
+        <div class="w-full">
+          <img class="w-full h-96 object-contain bg-gray-100" src="{{ post.image }}" alt="Post image">
+        </div>
+
+        <!-- 설명 및 좋아요 -->
+        <div class="p-4">
+          <div class="flex items-center space-x-3">
+            <i class="fa fa-heart-o fa-2x text-gray-500 cursor-pointer hover:text-red-500"></i>
+            <i class="fa fa-heart fa-2x text-red-500 hidden "></i>
+          </div>
+          <div class="mt-5">
+            <b class="text-gray-800">{{ post.author.username }}</b>
+            <span class="text-gray-600">{{ post.caption }}</span>
+          </div>
+        </div>
+        
+        <!-- 댓글 영역 -->
+        <div class="border-t border-gray-200 p-4 mt-5">
+          <h3 class="font-bold text-lg text-gray-800 mb-3">댓글</h3>
+          {% for comment in post.comment_post %}
+          <p id="comment-{{ comment.id }}" class="text-sm text-gray-700 mb-3 border-b pb-2 flex justify-between">
+            <span>
+              <span class="font-semibold text-gray-800 mr-2">{{ comment.author.username }}</span>           
+              <span> {{ comment.contents }} </span>
+            </span>
+
+            {% if user.id == comment.author.id%}
+            <span class="font-semibold text-gray-800 mr-3" onclick="commentDelete('{{comment.id}}')">
+              <i class="fa fa-trash-o fa-lg text-red-500 cursor-pointer hover:text-red-700"></i>
+              </span>
+            {% endif %}
+
+          </p>
+          {% endfor %}
+        </div>
+
+       
+        <!-- 댓글 입력 폼 -->
+        <div class="mt-5  p-4">
+          <form action="{% url 'posts:comment_create' post.id %}" method="post" class="flex flex-col space-y-4">
+            {% csrf_token %}            
+            {{ comment_form }}                
+            <button type="submit" class="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600">댓글 등록</button>
+          </form>
+        </div>
+      </article>
+
+{% endfor %}
+    </div> {% endcomment %}
+
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

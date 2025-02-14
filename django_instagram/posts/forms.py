@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 class CreatePostForm(forms.ModelForm):
     class Meta:
@@ -23,3 +23,34 @@ class CreatePostForm(forms.ModelForm):
             if not image.name.endswith(('.png', '.jpg', '.jpeg')):  # 이미지 확장자 체크
                 raise forms.ValidationError("지원하는 이미지 형식은 PNG, JPG, JPEG입니다.")
         return image
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['contents']
+        labels = {
+            "contents": "",
+        }
+        widgets = {
+            "contents": forms.Textarea(attrs={
+                "placeholder": "댓글을 입력하세요...",
+                "rows": 3,
+            }),
+        }
+
+    def clean_contents(self):
+        contents = self.cleaned_data.get("contents", "").strip()
+        
+        if not contents:  # 빈 문자열 또는 공백만 입력한 경우
+            raise forms.ValidationError("댓글 내용을 입력해주세요.")
+
+        if len(contents) < 2:  # 최소 2자 이상 입력
+            raise forms.ValidationError("댓글은 최소 2자 이상 입력해야 합니다.")
+
+        if len(contents) > 100:  # 최대 100자 제한
+            raise forms.ValidationError("댓글은 100자 이하로 입력해야 합니다.")
+
+        return contents
+
+

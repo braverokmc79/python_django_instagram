@@ -57,3 +57,11 @@ class PostSerializer(serializers.ModelSerializer):
         # 요청 객체에서 CSRF 토큰 가져오기
         request = self.context.get('request')
         return get_token(request) if request else None
+    
+
+
+class CommentFormSerializer(serializers.Serializer):
+    fields = serializers.SerializerMethodField()
+
+    def get_fields(self, obj):
+        return {field_name: str(field.field.widget.attrs) for field_name, field in obj.fields.items()}
