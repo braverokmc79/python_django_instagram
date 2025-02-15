@@ -21,8 +21,10 @@ class PostListView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        loginUser = request.user  # 현재 로그인한 사용자 객체
         serializer = self.get_serializer(queryset, many=True, context={'request': request})        
-        return Response( {"posts":serializer.data,}, status=status.HTTP_200_OK)
+        #ListAPIView는 DRF 기반이므로 Response를 사용
+        return Response({"posts": serializer.data, "loginUser": loginUser.username}, status=status.HTTP_200_OK)
 
 
 
@@ -30,13 +32,13 @@ def posts_list_view(request):
     if request.method == 'GET':
         user = get_object_or_404(user_model, pk=request.user.id)
         following = user.following.all() 
-
-        # 게시글 필터링  __ 언더바 포함의미 caption__contains ==>캡션 포함이 되어 있는 것
-        followed_posts = models.Post.objects.filter(( Q(author__in=following) | Q(author=user) )) 
+        loginUser = request.user  # 현재 로그인한 사용자 객체
+        # 게시글 필터링  __ 언더바 포함의미 caption__contains ==>캡션 포함이 되어 있는 것        
+        followed_posts = models.Post.objects.filter(Q(author__in=following) | Q(author=user))
 
         # 시리얼라이저로 데이터 변환
         serializer = PostSerializer(followed_posts, many=True, context={'request': request})
-        return JsonResponse({"posts": serializer.data})
+        return JsonResponse({"posts": serializer.data,"loginUser": loginUser.username},  status=200)
 
 
 

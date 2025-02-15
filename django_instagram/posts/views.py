@@ -7,6 +7,7 @@ from .api import serializers
 from django.http import JsonResponse , HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST, require_http_methods
+from django.contrib.auth.decorators import login_required
 
 # def index2(request):
 #     if request.method == 'GET': 
@@ -59,7 +60,7 @@ def index(request):
 
 
 
-
+# 게시글 생성
 def post_create(request):
     if request.method == "GET":
         form = CreatePostForm()
@@ -95,9 +96,25 @@ def post_create(request):
         else:
              # 인증되지 않은 사용자는 에러 메시지와 함께 로그인 페이지로 이동
             return render(request, 'users/main.html', {'error_message': '권한오류: post 등록에 실패하였습니다.'})
-        
 
 
+# 게시글 삭제
+@require_http_methods(["DELETE"])
+@login_required
+def post_delete(request, post_id):
+    post=get_object_or_404(models.Post, pk=post_id )
+    
+    if post.author == request.user:
+        post.delete()
+        return JsonResponse({"success": True, "message": "게시글 삭제되었습니다."}, status=200)
+    
+    return JsonResponse({"success": False, "message": "삭제 권한이 없습니다."}, status=403)
+
+
+
+
+
+# 댓글 생성
 @require_POST
 def comment_create(request, post_id):
     # 인증 확인 먼저 수행
@@ -115,10 +132,38 @@ def comment_create(request, post_id):
         comment.post = post
         comment.save()
         return JsonResponse({"success": True, "comment": serializers.CommentSerializer(comment).data})
+    
+    # 수정: 유효성 검사 실패 시 오류 메시지를 "error" 키에 담아 반환
+    # error_list = []
+    # for msgs in form.errors.values():  # 각 필드의 에러 메시지 리스트를 가져옴
+    #     for msg in msgs:  # 그 리스트 내부의 개별 메시지를 가져옴
+    #         error_list.append(msg)
+    #============한줄로 변경처리리==========>
+    error_messages = " ".join([msg for msgs in form.errors.values() for msg in msgs])  
+
+
+    print("dderror_messages", error_messages)
 
     # 유효성 검사 실패 시 오류 메시지 반환
     return JsonResponse({
         "success": False,
         "message": "댓글 등록 실패",
-        "errors": form.errors  # 폼 오류 메시지 포함
+        "errors": error_messages   # 폼 오류 메시지 포함
     }, status=400)
+
+
+
+#댓글 삭제
+@require_http_methods(["DELETE"])
+@login_required
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(models.Comment, pk=comment_id)    
+
+    if comment.author == request.user:
+        comment.delete()
+        return JsonResponse({"success": True, "message": "댓글이 삭제되었습니다."}, status=200)
+    
+    return JsonResponse({"success": False, "message": "삭제 권한이 없습니다."}, status=403)
+
+
+
