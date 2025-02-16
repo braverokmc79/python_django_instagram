@@ -33,12 +33,7 @@
 
         -->
         <!--3.방법-->
-            {% for field in form %}
-                <div class="text-red-500 font-semibold">
-                    {{field.errors}}
-                </div>
-            {% endfor %}            
-
+   
             <div>
                 <label for="id_caption" class="block text-sm font-medium text-gray-700 mb-1">
                     내용
@@ -50,6 +45,12 @@
                     rows="12"
                     required
                 ></textarea>
+
+               {% if form.caption.errors %}
+                    <p class="text-sm text-red-500 mt-1">
+                        {{ form.caption.errors.0 }}
+                    </p>
+                {% endif %} 
             </div>
 
             <div>
@@ -65,6 +66,11 @@
                     file:border-0 file:bg-indigo-600 file:text-white 
                     file:font-medium file:cursor-pointer file:hover:bg-indigo-500"
                 />
+                {% if form.image.errors %}
+                    <p class="text-sm text-red-500 mt-1">
+                        {{ form.image.errors.0 }}
+                    </p>
+                {% endif %}    
             </div>
       
 

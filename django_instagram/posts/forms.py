@@ -5,6 +5,34 @@ class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["caption", "image"]
+        labels = {
+            "caption": "내용",
+            "image": "사진"
+        }
+
+    def clean_caption(self):
+        caption = self.cleaned_data.get("caption")
+        if len(caption) < 5:  # 내용이 5자 이상이어야 한다는 유효성 검사
+            raise forms.ValidationError("내용은 최소 5자 이상이어야 합니다.")
+        return caption
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+
+        if image is None:
+            raise forms.ValidationError("이미지를 업로드해야 합니다.")  # 필수 입력 필드라면 추가
+
+        if not image.name.lower().endswith(('.png', '.jpg', '.jpeg')):
+            raise forms.ValidationError("지원하는 이미지 형식은 PNG, JPG, JPEG입니다.")
+        
+        return image
+
+
+
+class UpdatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["caption", "image"]
 
         labels = {
             "caption": "내용",
@@ -13,8 +41,8 @@ class CreatePostForm(forms.ModelForm):
 
     def clean_caption(self):
         caption = self.cleaned_data.get("caption")
-        if len(caption) < 10:  #  내용이 10자 이상이어야 한다는 유효성 검사
-            raise forms.ValidationError("내용은 최소 10자 이상이어야 합니다.")
+        if len(caption) < 5:  #  내용이 5자 이상이어야 한다는 유효성 검사
+            raise forms.ValidationError("내용은 최소 5자 이상이어야 합니다.")
         return caption
 
     def clean_image(self):
@@ -23,6 +51,8 @@ class CreatePostForm(forms.ModelForm):
             if not image.name.endswith(('.png', '.jpg', '.jpeg')):  # 이미지 확장자 체크
                 raise forms.ValidationError("지원하는 이미지 형식은 PNG, JPG, JPEG입니다.")
         return image
+
+
 
 
 class CommentForm(forms.ModelForm):

@@ -1,13 +1,14 @@
 from django.shortcuts import render , get_object_or_404 ,redirect
 from django_instagram.users.models import User as user_model  # 사용자 모델 import
 from . import models 
-from .forms import CreatePostForm, CommentForm
+from .forms import CreatePostForm,UpdatePostForm, CommentForm
 from django.db.models import Q
 from .api import serializers
 from django.http import JsonResponse , HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
+from django_instagram.utils import form_errors_to_string  # 공통 함수 가져오기
 
 # def index2(request):
 #     if request.method == 'GET': 
@@ -61,6 +62,7 @@ def index(request):
 
 
 # 게시글 생성
+@login_required
 def post_create(request):
     if request.method == "GET":
         form = CreatePostForm()
@@ -91,11 +93,10 @@ def post_create(request):
               new_post.save()
               return redirect(reverse('posts:index'))
            else:
+              # 유효성 검사 실패 시 오류 메시지 전달
               return render(request, 'posts/post_create.html', {'form': form})
            
-        else:
-             # 인증되지 않은 사용자는 에러 메시지와 함께 로그인 페이지로 이동
-            return render(request, 'users/main.html', {'error_message': '권한오류: post 등록에 실패하였습니다.'})
+
 
 
 # 게시글 삭제
@@ -109,6 +110,39 @@ def post_delete(request, post_id):
         return JsonResponse({"success": True, "message": "게시글 삭제되었습니다."}, status=200)
     
     return JsonResponse({"success": False, "message": "삭제 권한이 없습니다."}, status=403)
+
+
+
+#게시글 수정
+@login_required
+def post_update(request, post_id):
+    post = get_object_or_404(models.Post, pk=post_id)    
+    if post.author!= request.user:
+        return redirect(reverse('users:main'))
+    
+    if request.method == "GET":
+        form = UpdatePostForm(instance=post)
+        return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+    
+    elif request.method == "POST":
+        #instance=post → 기존 객체를 폼에 채우고 수정 가능하도록 함.
+        form = UpdatePostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+           # 이미지 파일이 없는 경우 원래 이미지 유지
+            if not request.FILES.get('image'):
+                form.instance.image = post.image  # 기존 이미지 유지
+
+             # 변경 사항 저장
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect(reverse('posts:index'))
+        else:
+            # 유효성 검사 실패 시 오류 메시지 전달
+            return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+            
+
+
 
 
 
@@ -139,16 +173,14 @@ def comment_create(request, post_id):
     #     for msg in msgs:  # 그 리스트 내부의 개별 메시지를 가져옴
     #         error_list.append(msg)
     #============한줄로 변경처리리==========>
-    error_messages = " ".join([msg for msgs in form.errors.values() for msg in msgs])  
-
-
-    print("dderror_messages", error_messages)
+    # error_messages = " ".join([msg for msgs in form.errors.values() for msg in msgs])  
+    #print("dderror_messages", error_messages)
 
     # 유효성 검사 실패 시 오류 메시지 반환
     return JsonResponse({
         "success": False,
         "message": "댓글 등록 실패",
-        "errors": error_messages   # 폼 오류 메시지 포함
+        "errors": form_errors_to_string(form)   # 폼 오류 메시지 포함
     }, status=400)
 
 

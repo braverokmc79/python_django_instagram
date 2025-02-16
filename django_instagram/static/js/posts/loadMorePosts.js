@@ -135,6 +135,11 @@ async function commentDelete(commentId,csrfToken, target){
 }
 
 
+// 수정페이지 이동
+function postUpdatePage(postId){
+  window.location.href = `/posts/${postId}/post_update/`;
+}
+
 
 
 
@@ -163,7 +168,7 @@ const postsHtmlTemplate =(post,loginUser)=>{
              ${(post.author.username===loginUser) ? `
                 <div class="flex items-center space-x-5">
                   <i class="fa fa-pencil fa-lg text-gray-500 cursor-pointer hover:text-gray-800"
-                   onclick="postUpdatePage('${post.id}', '${post.csrf_token}', this)"
+                   onclick="postUpdatePage('${post.id}')"
                   
                   ></i>
                   <i class="fa fa-trash-o fa-lg text-red-500 cursor-pointer hover:text-red-700"
