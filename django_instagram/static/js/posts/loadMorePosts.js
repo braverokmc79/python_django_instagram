@@ -143,6 +143,66 @@ function postUpdatePage(postId){
 
 
 
+// Debounce 연속된 호출을 지연시키고, 마지막 호출만 실행되도록 합니다.
+function debounce(func, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer); // 이전 타이머를 지웁니다.
+    timer = setTimeout(() => func.apply(this, args), delay); // 새로운 타이머를 설정합니다.
+  };
+}
+
+//좋아요! 좋아요취소!
+async function handleLikeClick(postId,csrfToken, target){
+  console.log("handleLikeClick  : ",postId,csrfToken, target);  
+  const iTag=target.querySelector("i");    
+  const likeButton = target; // 버튼 자체
+
+  if (likeButton.disabled) {
+    return; // 이미 처리 중이면 중복 요청 방지
+  }
+  
+  likeButton.disabled = true; // 버튼 비활성화
+    try {    
+      const response = await fetch(`/posts/${postId}/post_like/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+      });
+
+      const data = await response.json();
+      console.log("response  : ", data);
+
+
+      if (!response.ok || !data.success) {
+        console.log(" 좋아요 API 호출 중 오류가 발생했습니다.: " , data.error);
+        throw new Error(data.message || "좋아요 API 호출 중 오류가 발생했습니다.");
+      }
+    
+
+      if(data.message==="like"){
+        //좋아요!    
+        iTag.classList.replace("fa-heart-o", "fa-heart");
+        iTag.classList.replace("text-gray-500", "text-red-500");
+      }else{
+        //좋아요 취소!
+        iTag.classList.replace("fa-heart", "fa-heart-o");
+        iTag.classList.replace("text-red-500", "text-gray-500");        
+      }
+
+      target.querySelector("#like-count-"+postId).innerText=data.like_count;          
+  } catch (error) {
+    console.error("Error liking post:", error);
+  } finally {
+    likeButton.disabled = false; // 버튼 활성화
+  }
+
+}
+
+// Debounced 함수 적용 (300ms 지연)
+const debouncedHandleLikeClick = debounce(handleLikeClick, 300);
+
 
 
 
@@ -165,12 +225,10 @@ const postsHtmlTemplate =(post,loginUser)=>{
             </div>
             
             <!-- 오른쪽 콘텐츠 -->
-             ${(post.author.username===loginUser) ? `
+             ${(post.author.username===loginUser.username) ? `
                 <div class="flex items-center space-x-5">
                   <i class="fa fa-pencil fa-lg text-gray-500 cursor-pointer hover:text-gray-800"
-                   onclick="postUpdatePage('${post.id}')"
-                  
-                  ></i>
+                   onclick="postUpdatePage('${post.id}')"></i>
                   <i class="fa fa-trash-o fa-lg text-red-500 cursor-pointer hover:text-red-700"
                   onclick="postDelete('${post.id}', '${post.csrf_token}', this)"
                   ></i>
@@ -189,12 +247,12 @@ const postsHtmlTemplate =(post,loginUser)=>{
           <div class="flex items-center space-x-3" 
             id="like-button-${post.id}"
             onclick="debouncedHandleLikeClick('${post.id}', '${post.csrf_token}', this)">         
-              ${post.image_likes.includes(Number(userId)) ? 
+              ${post.image_likes.includes(Number(loginUser.id)) ? 
                 `<i class="fa fa-heart fa-2x text-red-500  cursor-pointer hover:text-red-500"></i>`  :
                 `<i class="fa fa-heart-o fa-2x text-gray-500 cursor-pointer hover:text-red-500"></i>`              
             } (<span id="like-count-${post.id}" class="mx-0 !mx-0">${post.image_likes.length}</span>)
   
-         </div>
+         </div> 
   
   
             <div class="mt-5">
@@ -234,7 +292,7 @@ const commentListElement = (comment, csrf_token, loginUser) => {
       <span class="font-semibold text-gray-800 mr-2">${comment.author.username}</span>
       <span class="break-all">${comment.contents} </span>
     </span>
-    ${(loginUser===comment.author.username) ? `
+    ${(loginUser.username===comment.author.username) ? `
       <span class="font-semibold text-gray-800 mr-3"
       onclick="commentDelete('${comment.id}', '${csrf_token}', this)">
         <i class="fa fa-trash-o fa-lg text-red-500 cursor-pointer hover:text-red-700"></i>

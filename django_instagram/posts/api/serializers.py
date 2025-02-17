@@ -65,3 +65,17 @@ class CommentFormSerializer(serializers.Serializer):
 
     def get_fields(self, obj):
         return {field_name: str(field.field.widget.attrs) for field_name, field in obj.fields.items()}
+
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = user_model
+        fields = (
+            "id",
+            "username",
+            "email",
+            "profile_photo",
+            "bio",
+        )
