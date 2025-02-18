@@ -164,7 +164,7 @@ async function handleLikeClick(postId,csrfToken, target){
   
   likeButton.disabled = true; // 버튼 비활성화
     try {    
-      const response = await fetch(`/posts/${postId}/post_like/`, {
+      const response = await fetch(`/api/posts/${postId}/post_like/`, {
         method: "POST",
         headers: {
           "X-CSRFToken": csrfToken,

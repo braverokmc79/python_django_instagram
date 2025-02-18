@@ -9,7 +9,11 @@ from django_instagram.posts.forms import CommentForm
 from django_instagram.posts import models 
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
+
+#1) Django REST Framework(DRF)의 generics.ListAPIView 는
 
 class PostListView(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -33,6 +37,7 @@ class PostListView(generics.ListAPIView):
 
 
 
+#2) Django의 일반 함수형 뷰(FBV, Function-Based View) 
 @api_view(['GET'])
 def posts_list_view(request):
     if request.method == 'GET':
@@ -51,5 +56,53 @@ def posts_list_view(request):
 
 
 
-class PostDetailView(generics.RetrieveAPIView):
-      pass
+
+
+
+# 
+# FBV : 일반 함수 장고 뷰방식 :좋아요 추가 및 취소
+@require_POST
+@login_required
+def post_like(request, post_id):
+    post = get_object_or_404(models.Post, pk=post_id)
+
+    try:
+
+        # ManyToManyField 에 한에서 기본적으로 중복 관계를 허용하지 않으므로, filter(pk=...)와 
+        # .exists()만으로 충분히 유니크한 관계를 확인할 수 있습니다. 
+        if post.image_likes.filter(pk=request.user.pk).exists():
+            post.image_likes.remove(request.user)
+            is_added = False
+        else:
+            post.image_likes.add(request.user)
+            is_added = True
+
+        return JsonResponse({"success": True,"message": "like" if is_added else "dislike",
+                            "like_count": post.image_likes.count(),}, status=200)
+
+    except Exception as e:
+        return JsonResponse({"success": False, "message": "오류가 발생했습니다.", "error": str(e)}, status=500)
+    
+
+
+# DRF  : 좋아요 추가 및 취소
+class PostLikeView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, post_id):
+        """좋아요 추가 및 취소 기능"""
+        post = get_object_or_404(models.Post, pk=post_id)
+        user =request.user
+
+        if post.image_likes.filter(pk=user.pk).exists():
+            post.image_likes.remove(user)
+            is_added = False
+        else:
+            post.image_likes.add(user)
+            is_added = True
+
+        return Response({"success": True,"message": "like" if is_added else "dislike",
+                        "like_count": post.image_likes.count(),}, status=status.HTTP_200_OK)
+
+
+

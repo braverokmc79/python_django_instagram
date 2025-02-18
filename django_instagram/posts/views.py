@@ -145,9 +145,6 @@ def post_update(request, post_id):
 
 
 
-
-
-
 # 댓글 생성
 @require_POST
 def comment_create(request, post_id):
