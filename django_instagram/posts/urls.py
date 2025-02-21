@@ -20,8 +20,6 @@ urlpatterns = [
      path('<int:post_id>/post_update/', views.post_update, name='post_update'),
      
 
-
-
      #댓글 생성
      # /posts/1/comment_create/
      path('<int:post_id>/comment_create/', views.comment_create, name='comment_create'),

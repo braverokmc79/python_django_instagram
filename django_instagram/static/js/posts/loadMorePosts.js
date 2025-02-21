@@ -1,13 +1,17 @@
+let page = 1; // 현재 페이지
 let loading = false; // 로딩 중 여부
 const container = document.querySelector('#postList'); // 게시글 컨테이너
 
+let postUrl="/api/posts/";
 
 const loadMorePosts = async () => {
   if (loading) return;
   loading = true;
 
   try {
-    const response = await fetch(`/api/posts/?format=json`);
+    const q=document.querySelector('#q').value.trim(); // 검색어 가져오기
+    console.log("검색어 : ",q);
+    const response = await fetch(`${postUrl}?format=json&page=${page}&q=${q}&pageSize=3`);
     const data = await response.json();
   
     // 데이터 추가\
@@ -16,18 +20,24 @@ const loadMorePosts = async () => {
       container.insertAdjacentHTML('beforeend', postElement);
     });
 
+    if (!data.has_next) {
+      window.removeEventListener('scroll', handleScroll); // 더 이상 로드하지 않음
+    }
 
+    page += 1; // 다음 페이지
   } catch (error) {
     console.error("Error loading posts:", error);
   } finally {
     loading = false;
   }
-
 };
 
 
-//게시글 로드
-loadMorePosts(); 
+function loadAllPosts() {
+  postUrl="/api/all/posts/";
+  searchInstagram();
+}
+
 
 
 
@@ -202,6 +212,38 @@ async function handleLikeClick(postId,csrfToken, target){
 
 // Debounced 함수 적용 (300ms 지연)
 const debouncedHandleLikeClick = debounce(handleLikeClick, 300);
+
+
+//검색 처리
+function searchOnEnter(event) {
+
+  if (event.key === "Enter") {
+    event.preventDefault(); // Enter 키 동작만 기본 동작을 막음
+    searchInstagram();
+  }
+}
+
+//버튼 클릭 검색 처리
+function searchInstagram(){
+  document.querySelector("#postList").innerHTML = "";
+  page = 1;
+   window.addEventListener('scroll', handleScroll);
+  loadMorePosts();
+}
+
+
+//로데시
+const handleScroll = _.throttle(() => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  
+  if (scrollTop + clientHeight >= scrollHeight - 10) {
+    loadMorePosts();    
+  }
+}, 200); // 200ms마다 실행
+
+window.addEventListener('scroll', handleScroll);
+loadMorePosts(); // 처음 로드
+
 
 
 
