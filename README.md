@@ -1,68 +1,98 @@
-# django_instagram
+# django\_instagram
 
-To-do:
---------
-- [] 포스트 생성
-- [] 포스트 수정
-- [] 포스트 삭제
-- [] 포스트 리스트(피드)
-- [] 댓글
-- [] 좋아요
-- [] 검색
-- [] 프로필 피드
+> 코담 편저
 
---------
-
-
-
-파이썬 장고(Python Django) - 쿠키커터(Cookiecutter)로 만드는 Instagram + TailwindCSS 프로젝트
+파이썬 장고(Python Django) - 쿠키커터(Cookiecutter)로 만드는 **Instagram + TailwindCSS** 프로젝트
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-라이선스: macaroncs.net
+
+---
+
+## 📌 To-do
+
+* 포스트 생성
+* ] 포스트 수정
+*  포스트 삭제
+* 포스트 리스트(피드)
+* 댓글 기능
+* 좋아요 기능
+* 검색 기능
+*  프로필 피드
 
 
-## 설정
+## 편저: [코담](https://codam.kr/)
 
-설정 관련 내용은 [settings 문서](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html)에서 확인하세요.
+### 파이썬·장고 웹개발 | 코담 - 코드에 세상을 담다
 
-## 기본 명령어
+[![코담 소개 이미지](https://codam.kr/assets/images/og-image.jpg)](https://codam.kr/)
 
-### 사용자 설정
+---
 
-- **일반 사용자 계정**을 생성하려면, 회원가입(Sign Up) 페이지에서 양식을 작성하세요. 제출 후 "이메일 주소를 확인하세요" 페이지가 나타납니다. 콘솔에서 이메일 인증 메시지를 확인한 후 제공된 링크를 브라우저에 입력하면 이메일 인증이 완료됩니다.
 
-- **관리자(superuser) 계정**을 생성하려면, 다음 명령어를 실행하세요:
 
-      $ python manage.py createsuperuser
+## ⚙️ 설정
 
-  
-일반 사용자는 Chrome에서, 관리자 계정은 Firefox에서 로그인하면 두 계정의 동작을 비교할 수 있습니다.
+설정 관련 자세한 정보는 [Cookiecutter Django Settings 문서](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html)를 참고하세요.
 
-### 타입 검사
+---
 
-mypy를 사용하여 타입 검사를 실행하려면:
+## 💠 기본 명령어
 
-    $ mypy django_instagram
+### 👤 사용자 설정
 
-### 테스트 커버리지
+* **일반 사용자 계정 생성**
+  회원가입(Sign Up) 페이지에서 양식을 작성합니다.
+  제주 후 "이메일 주소를 확인하세요" 안내가 나오며,
+  콘솔에 표시된 이메일 인증 링크를 브라우저에 입력하면 인증이 완료됩니다.
 
-테스트를 실행하고 커버리지를 확인하며, HTML 보고서를 생성하려면 다음 명령어를 사용하세요:
+* **관리자(superuser) 계정 생성**
+  콘솔에서 다음 명령어 실행:
 
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
+  ```bash
+  python manage.py createsuperuser
+  ```
 
-#### pytest를 사용한 테스트 실행
+Chrome에서는 일반 사용자로, Firefox에서는 관리자 계정으로 로그인하여 동작을 비교해보시면 됩니다.
 
-    $ pytest
+---
 
-### 라이브 리로딩 및 SASS CSS 컴파일
+### ✅ 타입 검사
 
-관련 내용은 [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp) 문서를 참고하세요.
+```bash
+mypy django_instagram
+```
 
-## 배포
+---
 
-이 애플리케이션을 배포하는 방법은 아래와 같습니다.
+### 🧪 테스트 & 커버리지 확인
 
+```bash
+coverage run -m pytest
+coverage html
+open htmlcov/index.html
+```
+
+### 또는 단순히 테스트만 실행하려면:
+
+```bash
+pytest
+```
+
+---
+
+### ♻️ 라이브 리로딩 및 SASS 커피밌
+
+TailwindCSS 및 SASS 관련 설정은 아래 문서를 참고하세요:
+🔗 [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp)
+
+---
+
+## 🚀 배포
+
+배포 관련 내용은 Cookiecutter Django 공식 문서에서 단계별 가이드를 확인하세요.
+
+---
+
+> 본 프로젝트는 컴파일 과정을 위해 사용하는 역할을 해요. 교육 및 클론 코딩 목적으로 제작되어있습니다.
