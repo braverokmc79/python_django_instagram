@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 
 urlpatterns = [
-    path("", RedirectView.as_view(url=reverse_lazy("users")), name="home"),
+    path("", RedirectView.as_view(url=reverse_lazy("posts:index")), name="home"),
      
     path(
         "about/",
