@@ -8,6 +8,52 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
+> ✅ 현재 이 프로젝트는 **SQLite** 데이터베이스를 사용하여 개발 및 실행됩니다.
+
+## 🛠️ 로컬 개발 실행 방법
+
+1. 가상환경 생성 및 활성화:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # Windows는 venv\Scripts\activate
+    ```
+
+2. 패키지 설치:
+
+🔹 로컬 개발 환경:
+```bash
+pip install -r requirements/local.txt
+
+```
+
+🔹 운영 서버 (배포 환경):
+```bash
+
+pip install -r requirements/production.txt
+
+```
+
+
+
+3. 마이그레이션 및 관리자 생성:
+    ```bash
+    python manage.py migrate
+    python manage.py createsuperuser
+    ```
+
+4. 서버 실행:
+    ```bash
+    python manage.py runserver
+    ```
+
+5. 접속:
+    - 웹브라우저에서 접속: [http://localhost:8000](http://localhost:8000)
+    - 관리자 페이지: [http://localhost:8000/admin](http://localhost:8000/admin)
+
+---
+
+
+
 ---
 
 ## 📌 To-do
@@ -20,6 +66,7 @@
 * 좋아요 기능
 * 검색 기능
 *  프로필 피드
+*  무한스크룰
 
 
 ## 편저: [코담](https://codam.kr/)

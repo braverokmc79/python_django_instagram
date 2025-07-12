@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from .forms import SignUpForm
+
 
 def main(request):
     if request.method == "GET":
@@ -58,6 +59,15 @@ def signup(request):
         
     # 실패시 오류 메시지 전달
     return render(request, 'users/main.html', {'error_message': '회원가입에 실패 하였습니다.'})
+
+
+
+
+
+# ✅ 로그아웃 처리
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('users:main'))  
 
 
 
