@@ -56,10 +56,18 @@ pip install -r requirements/production.txt
 
 ---
 
-## 📌 To-do
+## ✔️ 사용 스택
+
+- **Python + Django** (Cookiecutter 기반 프로젝트 구조)
+- **TailwindCSS**: 스타일링 도구로 튜토리얼과 달리 Tailwind 사용
+- **PostgreSQL**: 기본 데이터베이스 설정
+
+
+
+##### 📌 기능 목록 / 주요 기능 (Features 또는 주요 구현 사항)
 
 * 포스트 생성
-*  포스트 수정
+*  포스트 수정
 * 포스트 삭제
 * 포스트 리스트(피드)
 * 댓글 기능
@@ -67,6 +75,17 @@ pip install -r requirements/production.txt
 * 검색 기능
 * 프로필 피드
 * 무한스크룰
+* 팔로우/언팔로우
+
+
+##### 📌 기술스택
+- Python, Django, Django REST Framework
+- PostgreSQL
+- HTML, CSS, JavaScript
+- Tailwind CSS
+- AWS, Docker, Git, GitHub
+
+
 
 
 ## 편저: [코담](https://codam.kr/)
